@@ -31,7 +31,7 @@ namespace MessaCord.API.Gateway
         public ReadState[] ReadStates { get; set; }
 
         [JsonProperty("guilds")]
-        public object[] Guilds { get; set; }
+        public Guild[] Guilds { get; set; }
 
         [JsonProperty("private_channels")]
         public object[] PrivateChannels { get; set; }

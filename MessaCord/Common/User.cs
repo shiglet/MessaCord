@@ -4,18 +4,18 @@ namespace MessaCord.Common
 {
     public class User
     {
-        [JsonProperty("username", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("username")]
         public string Username { get; set; }
 
         [JsonProperty("id")] public string Id { get; set; }
 
-        [JsonProperty("discriminator", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("discriminator")]
         public string Discriminator { get; set; }
 
-        [JsonProperty("avatar", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("avatar")]
         public string Avatar { get; set; }
 
-        [JsonProperty("bot", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("bot")]
         public bool Bot { get; set; }
     }
 }
