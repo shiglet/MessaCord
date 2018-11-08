@@ -1,4 +1,4 @@
-﻿namespace MessaCord.API.Gateway
+﻿namespace MessaCord.API
 {
     public class GatewayOpCode 
     {

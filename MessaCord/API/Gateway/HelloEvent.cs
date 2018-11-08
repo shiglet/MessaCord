@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace MessaCord.API.Gateway
 {
-    public class GatewayHello
+    public class HelloEvent
     {
         [JsonProperty("heartbeat_interval")]
         public int HeartbeatInterval { get; set; }

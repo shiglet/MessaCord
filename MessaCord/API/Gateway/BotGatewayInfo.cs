@@ -1,6 +1,6 @@
 ﻿namespace MessaCord.API.Gateway
 {
-    public class BotGateway : Gateway
+    public class BotGatewayInfo : GatewayInfo
     {
         public int Shards { get; set; }
         public SessionStartLimit SessionStartLimit { get; set; }

@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using MessaCord.Common;
 using Newtonsoft.Json;
 
 namespace MessaCord.API.Gateway
 {
-    class Ready
+    class ReadyEvent
     {
         public class ReadState
         {
@@ -39,25 +38,5 @@ namespace MessaCord.API.Gateway
 
         [JsonProperty("relationships")]
         public Object[] Relationships { get; set; }
-    }
-
-    public class User
-    {
-        public bool Verified { get; set; }
-
-        public string Username { get; set; }
-
-        [JsonProperty("mfa_enabled")]
-        public bool MfaEnabled { get; set; }
-
-        public string Id { get; set; }
-
-        public object Email { get; set; }
-
-        public string Discriminator { get; set; }
-
-        public bool Bot { get; set; }
-
-        public string Avatar { get; set; }
     }
 }

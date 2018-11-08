@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MessaCord.API;
 using MessaCord.API.Gateway;
+using MessaCord.Common;
 using MessaCord.Utilities.Configuration;
 using MessaCord.Utilities.Log;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
@@ -20,7 +21,7 @@ namespace MessaCord.Network
     {
         private HttpClient _httpclient = new HttpClient();
         private Config _config;
-        private BotGateway _botGateway;
+        private BotGatewayInfo _botGateway;
         private int? _lastSequence = null;
         private WebSocket ws;
         private int _interval = 0;
@@ -42,7 +43,7 @@ namespace MessaCord.Network
             var r = await _httpclient.GetAsync("api/gateway/bot");
             if (r.IsSuccessStatusCode)
             {
-                _botGateway = await r.Content.ReadAsAsync<BotGateway>();
+                _botGateway = await r.Content.ReadAsAsync<BotGatewayInfo>();
                 ws = new WebSocket(_botGateway.Url);
                 ws.MessageReceived += (sender, e) =>
                 {
@@ -51,7 +52,6 @@ namespace MessaCord.Network
                     {
                         var msg = JsonConvert.DeserializeObject<NetworkFrame>(e.Message);
                         Console.WriteLine("Deserialized : " + msg);
-                        string toSend = null;
                         switch (msg.OperationCode)
                         {
                             case GatewayOpCode.Hello:
@@ -100,7 +100,7 @@ namespace MessaCord.Network
             {
                 case "READY":
                     var readMessage =
-                        JsonConvert.DeserializeObject<Ready>(msg.Data.ToString());
+                        JsonConvert.DeserializeObject<ReadyEvent>(msg.Data.ToString());
                     _logger.Log("READY");
                     break;
                 default: 
@@ -124,7 +124,7 @@ namespace MessaCord.Network
         private void HelloEventHandler(NetworkFrame msg)
         {
             var helloMsg =
-                JsonConvert.DeserializeObject<GatewayHello>(msg.Data.ToString());
+                JsonConvert.DeserializeObject<HelloEvent>(msg.Data.ToString());
             _interval = helloMsg.HeartbeatInterval;
             if (_interval != 0)
             {
@@ -146,7 +146,7 @@ namespace MessaCord.Network
                         new Identify(
                             _config.Token,
                             new Properties("windows", "disco", "disco"), false, 50,
-                            new int[] { 1, 10 }, new Presence(
+                            new int[] { 0, 1 }, new Presence(
                                 new Game("Cards Against Humanity", 0), "online", null, false))),
                     Formatting.Indented);
                 ws.Send(send);
