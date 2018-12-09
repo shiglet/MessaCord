@@ -8,6 +8,8 @@ namespace MessaCord.Utilities.Configuration
         public string Token { get; set; }
         [JsonProperty("discord_api_uri")]
         public string DiscordApiUri { get; set; }
+        [JsonProperty("prefix")]
+        public string Prefix { get; set; }
     }
 
 }

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace MessaCord.API
 {
-    class NetworkFrame
+    public class NetworkFrame
     {
         public NetworkFrame(int operationCode, object data = null, string type = null, int? sequence =null)
         {

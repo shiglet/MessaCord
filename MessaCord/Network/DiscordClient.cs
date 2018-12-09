@@ -20,19 +20,19 @@ namespace MessaCord.Network
     public class DiscordClient
     {
         private Dictionary<string,Guild> _guilds = new Dictionary<string,Guild>();
-        private HttpClient _httpclient = new HttpClient();
-        private Config _config;
+        private readonly HttpClient _httpclient = new HttpClient();
+        private readonly Config _config;
         private BotGatewayInfo _botGateway;
-        private int? _lastSequence = null;
+        private readonly int? _lastSequence = null;
         private WebSocket ws;
         private int _interval = 0;
-        public Logger _logger { get; set; }
+        public Logger Logger { get; set; } = new Logger(true);
+        public Action<Message> MessageReceived;
         public DiscordClient(Config config)
         {
             _config = config;
-            _logger = new Logger(true);
+            MessageReceived += HandleMessageCreate;
         }
-
         public async Task<bool> IdentifyAsync()
         {
 
@@ -44,7 +44,7 @@ namespace MessaCord.Network
                 ws = new WebSocket(_botGateway.Url);
                 ws.MessageReceived += (sender, e) =>
                 {
-                    _logger.LogDebug("Message received" + e.Message);
+                    Logger.LogDebug("Message received" + e.Message);
                     try
                     {
                         var msg = JsonConvert.DeserializeObject<NetworkFrame>(e.Message);
@@ -63,21 +63,21 @@ namespace MessaCord.Network
                                 DispatchHandler(msg);
                                 break;
                             default:
-                                _logger.LogError("Unmanaged gateway code");
+                                Logger.LogError("Unmanaged gateway code");
                                 break;
                         }
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError("Exception : " + ex.Message);
+                        Logger.LogError("Exception : " + ex.Message);
                     }
 
                 };
 
                 ws.Error += (sender, e) =>
-                    _logger.LogError("Error: " + e.Exception);
+                    Logger.LogError("Error: " + e.Exception);
                 ws.Closed += (sender, e) =>
-                    _logger.Log("Connection closed");
+                    Logger.Log("Connection closed");
                 ws.Open();
                 return true;
             }
@@ -97,17 +97,32 @@ namespace MessaCord.Network
                 case "GUILD_CREATE":
                     HandleGuildCreate(msg);
                     break;
+                case "MESSAGE_CREATE":
+                    var message = JsonConvert.DeserializeObject<Message>(msg.Data.ToString());
+                    OnMessageReceived(message);
+                    break;
                 default: 
-                    _logger.Log("Other type");
+                    Logger.Log("Other type");
                     break;
             }
+        }
+
+        private void OnMessageReceived(Message msg)
+        {
+            MessageReceived?.Invoke(msg);
+        }
+
+        //TODO : delete this method
+        private void HandleMessageCreate(Message message)
+        {
+            Logger.Log($"[{_guilds[message.GuildId].Name}] {message.Author.Username }:  {message.Content}");
         }
 
         private void HandleGuildCreate(NetworkFrame msg)
         {
             var guild = JsonConvert.DeserializeObject<Guild>(msg.Data.ToString());
             _guilds[guild.Id] =  guild;
-            _logger.Log("GUILD_CREATE");
+            Logger.Log("GUILD_CREATE");
         }
 
         private void HandleReadyEvent(NetworkFrame msg)
@@ -118,19 +133,19 @@ namespace MessaCord.Network
             {
                 _guilds.Add(guild.Id,null);
             }
-            _logger.Log("READY");
+            Logger.Log("READY");
         }
 
         private void HeartBeatAckHandler(NetworkFrame msg)
         {
-            _logger.Log("[ACK] HeartBreak");
+            Logger.Log("[ACK] HeartBreak");
         }
 
         private void HeartbeatEventHandler(NetworkFrame msg)
         {
             var toSend = JsonConvert.SerializeObject(new NetworkFrame(1, msg.Sequence));
             ws.Send(toSend);
-            _logger.Log("HeartBreak sended : " + toSend);
+            Logger.Log("HeartBreak sended : " + toSend);
         }
 
         private void HelloEventHandler(NetworkFrame msg)
@@ -151,7 +166,7 @@ namespace MessaCord.Network
                             Sequence = _lastSequence
                         });
                         ws.Send(toSend);
-                        _logger.Log("HeartBreak sended : " + toSend);
+                        Logger.Log("HeartBreak sended : " + toSend);
                     }
                 });
                 var send = JsonConvert.SerializeObject(new NetworkFrame(GatewayOpCode.Identify,
@@ -162,7 +177,7 @@ namespace MessaCord.Network
                                 new Game("Cards Against Humanity", 0), "online", null, false))),
                     Formatting.Indented);
                 ws.Send(send);
-                _logger.LogDebug("Send : " + send);
+                Logger.LogDebug("Send : " + send);
             }
         }
 

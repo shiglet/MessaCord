@@ -1,25 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading;
 using System.Threading.Tasks;
-using MessaCord.API;
-using MessaCord.API.Gateway;
 using MessaCord.Common;
 using MessaCord.Network;
 using MessaCord.Utilities.Configuration;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Newtonsoft.Json;
-using WebSocket4Net;
 
-namespace MessaCord
+namespace MessaCord.Test
 {
     class Program
     {
-        Config _config =  new ConfigManager().Config;
+        Config _config = new ConfigManager().Config;
         private DiscordClient _client;
         static void Main(string[] args) => new Program().RunAsync().GetAwaiter().GetResult();
 
@@ -27,7 +17,7 @@ namespace MessaCord
         {
             _client = new DiscordClient(_config);
             bool identified = await _client.IdentifyAsync();
-            if(identified == true)
+            if (identified == true)
                 Console.WriteLine("Successfully identified !");
             await Task.Delay(-1);
         }
@@ -86,11 +76,10 @@ namespace MessaCord
         public bool afk { get; set; }
     }
 
-   public class SessionStartLimit
+    public class SessionStartLimit
     {
         public int Total { get; set; }
         public int Remaining { get; set; }
         public int ResetAfter { get; set; }
     }
-    
 }
