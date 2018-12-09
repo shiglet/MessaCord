@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 using Microsoft.IdentityModel.Logging;
 using Newtonsoft.Json;
 using WebSocket4Net;
+using Presence = MessaCord.API.Gateway.Presence;
 
 namespace MessaCord.Network
 {

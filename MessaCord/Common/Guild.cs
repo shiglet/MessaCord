@@ -16,7 +16,7 @@ namespace MessaCord.Common
         public object Splash { get; set; }
         public List<Role> Roles { get; set; }
         public string Region { get; set; }
-        public List<MessaCord.Presence> Presences { get; set; }
+        public List<Presence> Presences { get; set; }
         [JsonProperty("owner_id")]
         public string OwnerId { get; set; }
         public string Name { get; set; }
