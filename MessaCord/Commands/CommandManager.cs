@@ -33,7 +33,7 @@ namespace MessaCord.Commands
         }
     }
     
-    public class TestModule
+    public class XTestModule
     {
         [Command("Hello")]
         public void Hello()
