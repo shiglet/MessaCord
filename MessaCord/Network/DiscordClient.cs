@@ -32,7 +32,6 @@ namespace MessaCord.Network
         public DiscordClient(Config config)
         {
             _config = config;
-            //MessageReceived += HandleMessageCreate;
         }
         public async Task<bool> IdentifyAsync()
         {
