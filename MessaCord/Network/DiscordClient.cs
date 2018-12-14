@@ -28,11 +28,11 @@ namespace MessaCord.Network
         private WebSocket ws;
         private int _interval = 0;
         public Logger Logger { get; set; } = new Logger(true);
-        public Action<Message> MessageReceived;
+        public Func<Message,Task> MessageReceived;
         public DiscordClient(Config config)
         {
             _config = config;
-            MessageReceived += HandleMessageCreate;
+            //MessageReceived += HandleMessageCreate;
         }
         public async Task<bool> IdentifyAsync()
         {
