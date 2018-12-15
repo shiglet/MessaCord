@@ -28,6 +28,7 @@ namespace MessaCord.Commands
             Logger.Log($"{message.Author.Username}:  {message.Content}");
 
             await _commandManager.ExecuteCommandAsync(message.Content);
+            await _client.SendMessageAsync(message.ChannelId, "Salut :D premier message sisi");
         }
     }
 }

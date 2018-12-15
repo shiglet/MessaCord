@@ -26,7 +26,7 @@ namespace MessaCord.Test
             var cmdManager = new CommandManager();
             await cmdManager.LoadModulesAsync(Assembly.GetEntryAssembly());
             CommandHandler cmdHandler = new CommandHandler("!",_client, cmdManager);
-            bool identified = await _client.IdentifyAsync();
+            bool identified = await _client.StartAsync();
             if (identified == true)
                 Console.WriteLine("Successfully identified !");
 

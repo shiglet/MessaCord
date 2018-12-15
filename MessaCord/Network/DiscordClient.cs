@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MessaCord.API;
 using MessaCord.API.Gateway;
 using MessaCord.Common;
+using MessaCord.RestAPI;
 using MessaCord.Utilities.Configuration;
 using MessaCord.Utilities.Log;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
@@ -21,27 +22,23 @@ namespace MessaCord.Network
     public class DiscordClient
     {
         private Dictionary<string,Guild> _guilds = new Dictionary<string,Guild>();
-        private readonly HttpClient _httpclient = new HttpClient();
         private readonly Config _config;
-        private BotGatewayInfo _botGateway;
         private readonly int? _lastSequence = null;
         private WebSocket ws;
         private int _interval = 0;
+        private DiscordAPIClient _discordApiClient;
         public Logger Logger { get; set; } = new Logger(true);
         public Func<Message,Task> MessageReceived;
         public DiscordClient(Config config)
         {
             _config = config;
+            _discordApiClient = new DiscordAPIClient(_config);
         }
-        public async Task<bool> IdentifyAsync()
+        public async Task<bool> StartAsync()
         {
-
-            ConfigureHttpClient();
-            var r = await _httpclient.GetAsync("api/gateway/bot");
-            if (r.IsSuccessStatusCode)
+            ws = await _discordApiClient.ConnectToGateway();
+            if (ws != null)
             {
-                _botGateway = await r.Content.ReadAsAsync<BotGatewayInfo>();
-                ws = new WebSocket(_botGateway.Url);
                 ws.MessageReceived += (sender, e) =>
                 {
                     Logger.LogDebug("Message received" + e.Message);
@@ -166,7 +163,7 @@ namespace MessaCord.Network
                             Sequence = _lastSequence
                         });
                         ws.Send(toSend);
-                        Logger.Log("HeartBreak sended : " + toSend);
+                        Logger.Log("HeartBreak sent : " + toSend);
                     }
                 });
                 var send = JsonConvert.SerializeObject(new NetworkFrame(GatewayOpCode.Identify,
@@ -181,14 +178,9 @@ namespace MessaCord.Network
             }
         }
 
-        private void ConfigureHttpClient()
+        public async Task SendMessageAsync(string messageChannelId, string content)
         {
-            _httpclient.BaseAddress = new Uri(_config.DiscordApiUri);
-            _httpclient.DefaultRequestHeaders.Accept.Clear();
-            _httpclient.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-            _httpclient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Bot", _config.Token);
+            await _discordApiClient.SendMessageAsync(messageChannelId, content);
         }
     }
 }

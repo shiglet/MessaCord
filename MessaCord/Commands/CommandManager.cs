@@ -37,7 +37,7 @@ namespace MessaCord.Commands
                             .Any(c => (c as CommandAttribute)?.Command == command));
                     if (methodToCall == null) continue;
                     var instance = _modules.FirstOrDefault(m =>
-                        methodToCall != null && m.GetType() == methodToCall.DeclaringType);
+                        m.GetType() == methodToCall.DeclaringType);
                     methodToCall.Invoke(instance, null);
                 }
             });

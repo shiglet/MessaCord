@@ -3,25 +3,17 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <LangVersion>7.1</LangVersion>
     <ApplicationIcon />
     <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.5" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
     <PackageReference Include="WebSocket4Net" Version="0.15.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MessaCord.RestAPI\MessaCord.RestAPI.csproj" />
     <ProjectReference Include="..\MessaCord.Utilities\MessaCord.Utilities.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Ressources\config.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

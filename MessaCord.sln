@@ -5,7 +5,11 @@ VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessaCord", "MessaCord\MessaCord.csproj", "{99827D1D-FBD3-4ED2-82D5-7E0FCCD67DD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessaCord.Test", "MessaCord.Test\MessaCord.Test.csproj", "{2BB03D88-DB79-4127-A02C-1665BBADBB77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessaCord.Test", "MessaCord.Test\MessaCord.Test.csproj", "{2BB03D88-DB79-4127-A02C-1665BBADBB77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessaCord.RestAPI", "MessaCord.RestAPI\MessaCord.RestAPI.csproj", "{945004FB-F5EB-4C76-8AD9-FCC52517DA3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessaCord.Utilities", "MessaCord.Utilities\MessaCord.Utilities.csproj", "{111AB610-375B-4C92-AC1D-16CAC2C4C570}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{2BB03D88-DB79-4127-A02C-1665BBADBB77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BB03D88-DB79-4127-A02C-1665BBADBB77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BB03D88-DB79-4127-A02C-1665BBADBB77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{945004FB-F5EB-4C76-8AD9-FCC52517DA3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{945004FB-F5EB-4C76-8AD9-FCC52517DA3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{945004FB-F5EB-4C76-8AD9-FCC52517DA3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{945004FB-F5EB-4C76-8AD9-FCC52517DA3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{111AB610-375B-4C92-AC1D-16CAC2C4C570}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{111AB610-375B-4C92-AC1D-16CAC2C4C570}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{111AB610-375B-4C92-AC1D-16CAC2C4C570}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{111AB610-375B-4C92-AC1D-16CAC2C4C570}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
