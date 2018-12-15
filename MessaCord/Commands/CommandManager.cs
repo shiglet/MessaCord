@@ -35,9 +35,10 @@ namespace MessaCord.Commands
 
         public async Task ExecuteCommandAsync(RestMessage message)
         {
-            await Task.Factory.StartNew(() =>
+            await Task.Factory.StartNew(async () =>
             {
-                string command = message.Content.Split(" ").FirstOrDefault()?.Substring(1);
+                string[] commands = message.Content.Split(" ");
+                string command = commands.FirstOrDefault()?.Substring(1);
                 foreach (var module in _modules)
                 {
                     var type = module.GetType();
@@ -51,10 +52,26 @@ namespace MessaCord.Commands
                         m.GetType() == methodToCall.DeclaringType);
                     if (instance == null) continue;
                     instance.SetContext(new CommandContext(_client, message));
-                    methodToCall.Invoke(instance, null);
+                    var parameters = methodToCall.GetParameters();
+                    string[] splitArgs = commands.Skip(1).ToArray();
+                    var args = new List<object>();
+                    int i = 0;
+                    foreach (var p in parameters)
+                    {
+                        try
+                        {
+                            args.Add(Convert.ChangeType(splitArgs[i], p.ParameterType));
+                            i++;
+                        }
+                        catch (Exception)
+                        {
+                            await _client.SendMessageAsync(message.Channel.Id, "Error bad args");
+                        }
+
+                    }
+                    methodToCall.Invoke(instance, args.ToArray());
                 }
             });
         }
-        
     }
 }

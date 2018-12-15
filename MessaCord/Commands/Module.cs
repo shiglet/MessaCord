@@ -8,25 +8,21 @@ namespace MessaCord.Commands
 {
     public class Module
     {
-        protected DiscordClient _discordClient;
-        private CommandContext _commandContext;
+        protected DiscordClient DiscordClient;
+        public CommandContext Context;
 
         protected async Task ReplyAsync(string message)
         {
-            await _discordClient.SendMessageAsync(_commandContext.Message.Channel.ChannelId, message);
+            await DiscordClient.SendMessageAsync(Context.Message.Channel.Id, message);
         }
         public void SetContext(CommandContext value)
         {
-            _commandContext = value;
+            Context = value;
         }
 
         public Module(DiscordClient discordClient)
         {
-            _discordClient = discordClient; 
+            DiscordClient = discordClient; 
         }
-        public Module()
-        {
-        }
-
     }
 }

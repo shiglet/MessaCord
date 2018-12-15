@@ -6,11 +6,11 @@ namespace MessaCord.RestAPI.Entities.Channels
 {
     public class RestChannel
     {
-        public ulong ChannelId { get; set; }
+        public ulong Id { get; set; }
 
-        public RestChannel(ulong channelId)
+        public RestChannel(ulong id)
         {
-            ChannelId = channelId;
+            Id = id;
         }
     }
 }

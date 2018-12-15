@@ -3,5 +3,6 @@
     public class RestUser
     {
         public string Username { get; set; }
+        public ulong Id { get; set; }
     }
 }
