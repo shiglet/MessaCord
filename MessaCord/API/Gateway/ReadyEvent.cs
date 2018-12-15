@@ -1,5 +1,5 @@
 ﻿using System;
-using MessaCord.Common;
+using MessaCord.RestAPI.API.Common;
 using Newtonsoft.Json;
 
 namespace MessaCord.API.Gateway

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using MessaCord.Common;
 using MessaCord.Network;
+using MessaCord.RestAPI.Entities.Messages;
 using MessaCord.Utilities.Log;
 
 namespace MessaCord.Commands
@@ -8,9 +8,9 @@ namespace MessaCord.Commands
     public class CommandHandler
     {
         private Logger Logger = new Logger(true);
-        private string _prefix;
-        private DiscordClient _client;
-        private CommandManager _commandManager;
+        private readonly string _prefix;
+        private readonly DiscordClient _client;
+        private readonly CommandManager _commandManager;
 
         public CommandHandler(string prefix, DiscordClient client, CommandManager commandManager = null)
         {
@@ -20,15 +20,14 @@ namespace MessaCord.Commands
             _commandManager = commandManager;
         }
 
-        private async Task HandleCommand(Message message)
+        private async Task HandleCommand(RestMessage message)
         {
             if (message == null) return;
             if (!(message.Content.StartsWith(_prefix))) return;
 
             Logger.Log($"{message.Author.Username}:  {message.Content}");
 
-            await _commandManager.ExecuteCommandAsync(message.Content);
-            await _client.SendMessageAsync(message.ChannelId, "Salut :D premier message sisi");
+            await _commandManager.ExecuteCommandAsync(message);
         }
     }
 }

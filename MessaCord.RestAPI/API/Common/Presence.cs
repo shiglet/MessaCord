@@ -1,4 +1,4 @@
-﻿namespace MessaCord.Common
+﻿namespace MessaCord.RestAPI.API.Common
 {
     public class Presence
     {

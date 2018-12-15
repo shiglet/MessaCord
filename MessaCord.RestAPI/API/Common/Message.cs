@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Newtonsoft.Json;
 
-namespace MessaCord.Common
+namespace MessaCord.RestAPI.API.Common
 {
     public partial class Message
     {
@@ -47,7 +45,7 @@ namespace MessaCord.Common
         public string Content { get; set; }
 
         [JsonProperty("channel_id")]
-        public string ChannelId { get; set; }
+        public ulong ChannelId { get; set; }
 
         [JsonProperty("author")]
         public User Author { get; set; }

@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using MessaCord.API.Gateway;
 using MessaCord.Commands;
-using MessaCord.Common;
 using MessaCord.Network;
 using MessaCord.Utilities.Configuration;
 using Newtonsoft.Json;
@@ -23,7 +22,7 @@ namespace MessaCord.Test
         async Task RunAsync()
         {
             _client = new DiscordClient(_config);
-            var cmdManager = new CommandManager();
+            var cmdManager = new CommandManager(_client);
             await cmdManager.LoadModulesAsync(Assembly.GetEntryAssembly());
             CommandHandler cmdHandler = new CommandHandler("!",_client, cmdManager);
             bool identified = await _client.StartAsync();

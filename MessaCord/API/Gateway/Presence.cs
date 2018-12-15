@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using MessaCord.Common;
+using MessaCord.RestAPI.API.Common;
 
 namespace MessaCord.API.Gateway
 {

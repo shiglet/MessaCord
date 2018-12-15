@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace MessaCord.Common
+namespace MessaCord.RestAPI.API.Common
 {
     public class Guild
     {

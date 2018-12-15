@@ -7,13 +7,16 @@ using System.Text;
 using System.Threading.Tasks;
 using MessaCord.API;
 using MessaCord.API.Gateway;
-using MessaCord.Common;
 using MessaCord.RestAPI;
+using MessaCord.RestAPI.API.Common;
+using MessaCord.RestAPI.Entities.Channels;
+using MessaCord.RestAPI.Entities.Messages;
 using MessaCord.Utilities.Configuration;
 using MessaCord.Utilities.Log;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 using Microsoft.IdentityModel.Logging;
 using Newtonsoft.Json;
+using Remotion.Linq.Parsing.Structure.IntermediateModel;
 using WebSocket4Net;
 using Presence = MessaCord.API.Gateway.Presence;
 
@@ -21,14 +24,14 @@ namespace MessaCord.Network
 {
     public class DiscordClient
     {
-        private Dictionary<string,Guild> _guilds = new Dictionary<string,Guild>();
+        private readonly Dictionary<string,Guild> _guilds = new Dictionary<string,Guild>();
         private readonly Config _config;
         private readonly int? _lastSequence = null;
         private WebSocket ws;
         private int _interval = 0;
-        private DiscordAPIClient _discordApiClient;
+        private readonly DiscordAPIClient _discordApiClient;
         public Logger Logger { get; set; } = new Logger(true);
-        public Func<Message,Task> MessageReceived;
+        public Func<RestMessage,Task> MessageReceived;
         public DiscordClient(Config config)
         {
             _config = config;
@@ -96,7 +99,7 @@ namespace MessaCord.Network
                     break;
                 case "MESSAGE_CREATE":
                     var message = JsonConvert.DeserializeObject<Message>(msg.Data.ToString());
-                    OnMessageReceived(message);
+                    OnMessageReceived(RestMessage.CreateMessage(message));
                     break;
                 default: 
                     Logger.Log("Other type");
@@ -104,15 +107,9 @@ namespace MessaCord.Network
             }
         }
 
-        private void OnMessageReceived(Message msg)
+        private void OnMessageReceived(RestMessage msg)
         {
             MessageReceived?.Invoke(msg);
-        }
-
-        //TODO : delete this method
-        private void HandleMessageCreate(Message message)
-        {
-            Logger.Log($"[{_guilds[message.GuildId].Name}] {message.Author.Username }:  {message.Content}");
         }
 
         private void HandleGuildCreate(NetworkFrame msg)
@@ -178,7 +175,7 @@ namespace MessaCord.Network
             }
         }
 
-        public async Task SendMessageAsync(string messageChannelId, string content)
+        public async Task SendMessageAsync(ulong messageChannelId, string content)
         {
             await _discordApiClient.SendMessageAsync(messageChannelId, content);
         }

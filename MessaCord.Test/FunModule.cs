@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using MessaCord.Commands;
+using MessaCord.Network;
 
 namespace MessaCord.Test
 {
@@ -9,14 +11,20 @@ namespace MessaCord.Test
     {
 
         [Command("Fun")]
-        public void Fun()
+        public async Task Fun()
         {
-            Console.WriteLine($"I'm having some fun !");
+            await ReplyAsync($"I'm having some fun !");
         }
         [Command("Cool")]
-        public void Cool()
+        public async Task Cool()
         {
-            Console.WriteLine($"Chilllll !");
+            await ReplyAsync($"Chilllll !");
         }
+
+        public FunModule(DiscordClient d) : base(d)
+        {
+
+        }
+        
     }
 }

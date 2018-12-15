@@ -24,4 +24,9 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entities\Channels\" />
+    <Folder Include="Entities\Guilds\" />
+  </ItemGroup>
+
 </Project>

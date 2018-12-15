@@ -16,4 +16,8 @@
     <ProjectReference Include="..\MessaCord.Utilities\MessaCord.Utilities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entities\Guilds\" />
+  </ItemGroup>
+
 </Project>

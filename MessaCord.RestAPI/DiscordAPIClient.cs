@@ -35,7 +35,7 @@ namespace MessaCord.RestAPI
             throw new Exception("Error while retrieving Gateway information");
         }
 
-        public async Task<bool> SendMessageAsync(string channelId, string content)
+        public async Task<bool> SendMessageAsync(ulong channelId, string content)
         {
             var args = JsonConvert.SerializeObject(new PostMessageParams(content, false));
             if (args == null)

@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace MessaCord.Common
+namespace MessaCord.RestAPI.API.Common
 {
     public class Member
     {

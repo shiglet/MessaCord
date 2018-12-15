@@ -1,22 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using MessaCord.Commands;
+using MessaCord.Network;
 
 namespace MessaCord.Test
 {
     public class TestModule : Module
     {
-        [Command("Hello")]
-        public void Hello()
+        public TestModule(DiscordClient discordClient) : base(discordClient)
         {
-            Console.WriteLine("Inside Hello command");
+        }
+
+        [Command("Hello")]
+        public async Task Hello()
+        {
+            await ReplyAsync("Inside Hello command");
         }
 
         [Command("Laugh")]
-        public void Laugh()
+        public async Task Laugh()
         {
-            Console.WriteLine("HAHAHAH xDDD");
+            await ReplyAsync("HAHAHAH xDDD");
         }
     }
 }
